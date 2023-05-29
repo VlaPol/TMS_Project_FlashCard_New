@@ -11,6 +11,14 @@ public class Topic {
     }
     public Topic(){}
 
+    public Long getTopicId() {
+        return topicId;
+    }
+
+    public String getTopicTitle() {
+        return topicTitle;
+    }
+
     @Override
     public String toString() {
         return

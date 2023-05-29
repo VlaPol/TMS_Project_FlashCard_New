@@ -7,10 +7,12 @@ import com.zaxxer.hikari.HikariDataSource;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 
 import static by.tms.project_flashcard_new.utils.DBConnection.*;
 
-public class FlasCardListener implements ServletContextListener {
+@WebListener
+public class FlashCardListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         HikariDataSource dataSource = new HikariDataSource(getHikariConfig());

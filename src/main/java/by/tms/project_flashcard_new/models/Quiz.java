@@ -17,6 +17,22 @@ public class Quiz {
     public Quiz() {
     }
 
+    public Long getQuizId() {
+        return quizId;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public boolean isRemembered() {
+        return isRemembered;
+    }
+
     @Override
     public String toString() {
         return "quizId=" + quizId +

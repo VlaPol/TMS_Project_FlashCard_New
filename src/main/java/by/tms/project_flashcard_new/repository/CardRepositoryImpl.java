@@ -86,7 +86,8 @@ public class CardRepositoryImpl implements CardRepository {
                            count(q.topic_id)                                    AS total_count
                     FROM topic t
                                 LEFT JOIN quiz as q ON t.topic_id = q.topic_id
-                    GROUP BY t.topic_id;
+                    GROUP BY t.topic_id
+                    ORDER BY t.topic_id;
                 """;
 
         try (Connection connection = dataSource.getConnection();
