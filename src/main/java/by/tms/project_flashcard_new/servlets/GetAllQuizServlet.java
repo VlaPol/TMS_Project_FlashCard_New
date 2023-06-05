@@ -44,5 +44,25 @@ public class GetAllQuizServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(responseBody);
     }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        long topicId = Long.parseLong(request.getParameter("topicId"));
+        String question = request.getParameter("question");
+        String answer = request.getParameter("answer");
+
+        cardService.addNewQuiz(topicId, question, answer, false);
+        response.sendRedirect("/allquizzes?topicId="+ topicId);
+
+    }
+
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        long quizId = Long.parseLong(request.getParameter("quizId"));
+        long topicId = Long.parseLong(request.getParameter("topicId"));
+        cardService.removeQuiz(quizId);
+        response.sendRedirect("/allquizzes?topicId="+ topicId);
+
+    }
 }
 

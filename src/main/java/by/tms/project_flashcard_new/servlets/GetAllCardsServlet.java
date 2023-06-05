@@ -39,5 +39,21 @@ public class GetAllCardsServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(responseBody);
     }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String title = request.getParameter("title");
+        cardService.addNewTopic(title);
+        response.sendRedirect("/alltopics");
+
+    }
+
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        long topicId = Long.parseLong(request.getParameter("topicId"));
+        cardService.removeTopic(topicId);
+        response.sendRedirect("/alltopics");
+
+    }
 }
 
