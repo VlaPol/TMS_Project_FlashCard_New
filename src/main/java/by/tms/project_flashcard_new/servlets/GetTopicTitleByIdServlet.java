@@ -31,7 +31,7 @@ public class GetTopicTitleByIdServlet extends HttpServlet {
         response.setContentType("text/plain");
         response.setCharacterEncoding("utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(cardService.getTopicTitleById(topicId));
+        response.getWriter().println(cardService.getTopicById(topicId));
     }
 }
 

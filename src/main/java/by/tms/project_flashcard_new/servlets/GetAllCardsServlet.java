@@ -1,7 +1,8 @@
 package by.tms.project_flashcard_new.servlets;
 
-import by.tms.project_flashcard_new.models.Topic;
+import by.tms.project_flashcard_new.models.FullTopic;
 import by.tms.project_flashcard_new.service.CardService;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet("/alltopics")
 public class GetAllCardsServlet extends HttpServlet {
@@ -26,34 +26,11 @@ public class GetAllCardsServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Topic> topics = cardService.getTopics();
+        List<FullTopic> topics = cardService.getTopicsWithCounts();
 
-        String responseBody = topics.stream()
-                .map(topic -> "%3s %-20s".formatted(
-                        topic.getTopicId(),
-                        topic.getTopicTitle()
-                ))
-                .collect(Collectors.joining("\n"));
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(responseBody);
-    }
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String title = request.getParameter("title");
-        cardService.addNewTopic(title);
-        response.sendRedirect("/alltopics");
-
-    }
-
-    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        long topicId = Long.parseLong(request.getParameter("topicId"));
-        cardService.removeTopic(topicId);
-        response.sendRedirect("/alltopics");
-
+        request.setAttribute("topics", topics);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/templates/alltopics.jsp");
+        dispatcher.forward(request, response);
     }
 }
 

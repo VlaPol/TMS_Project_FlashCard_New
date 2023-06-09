@@ -1,9 +1,7 @@
 package by.tms.project_flashcard_new.servlets;
 
 import by.tms.project_flashcard_new.models.Quiz;
-import by.tms.project_flashcard_new.models.Topic;
 import by.tms.project_flashcard_new.service.CardService;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,8 +13,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet("/allquizzes")
-public class GetAllQuizServlet extends HttpServlet {
+@WebServlet("/add-quiz")
+public class AddNewQuizServlet extends HttpServlet {
 
     private CardService cardService;
 
@@ -26,17 +24,16 @@ public class GetAllQuizServlet extends HttpServlet {
         cardService = (CardService) context.getAttribute("cardService");
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Long topicId = Long.valueOf(request.getParameter("topicId"));
-        Topic topic = cardService.getTopicById(topicId);
+        long topicId = Long.parseLong(request.getParameter("topicId"));
 
-        List<Quiz> quizzes = cardService.getAllQuiz(topicId);
+        String question = request.getParameter("question");
+        String answer = request.getParameter("answer");
 
-        request.setAttribute("topic", topic);
-        request.setAttribute("quizzes", quizzes);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/templates/allquizes.jsp");
-        dispatcher.forward(request, response);
+        cardService.addNewQuiz(topicId, question, answer, false);
+        response.sendRedirect("/allquizzes?topicId="+ topicId);
+
     }
 
 }

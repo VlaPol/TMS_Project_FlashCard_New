@@ -27,9 +27,9 @@ public class CardRepositoryImpl implements CardRepository {
      * @return Optional<String>
      */
     @Override
-    public Optional<String> getTopicTitleById(Long topicId) {
+    public Optional<Topic> getTopicById(Long topicId) {
 
-        String sql = " SELECT topic_title FROM topic WHERE topic_id = ?";
+        String sql = " SELECT t.topic_id, t.topic_title FROM topic t WHERE topic_id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -38,7 +38,9 @@ public class CardRepositoryImpl implements CardRepository {
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                return Optional.of(rs.getString("TOPIC_TITLE"));
+                return Optional.of(new Topic(
+                        rs.getLong("TOPIC_ID"),
+                        rs.getString("TOPIC_TITLE")));
             }
             return Optional.empty();
 
@@ -259,6 +261,31 @@ public class CardRepositoryImpl implements CardRepository {
             statement.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public Long getTopicIdByQuizId(Long quizId) {
+        String sql = """
+                    select q.topic_id from quiz q
+                    where q.quiz_id = ?
+                """;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, quizId);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return rs.getLong("topic_id");
+            } else {
+                throw new RuntimeException();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException();
         }
     }
 

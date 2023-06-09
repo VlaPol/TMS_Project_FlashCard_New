@@ -29,7 +29,7 @@ public class Quiz {
         return answer;
     }
 
-    public boolean isRemembered() {
+    public boolean getIsRemembered() {
         return isRemembered;
     }
 

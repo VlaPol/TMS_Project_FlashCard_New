@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CardRepository {
 
-    Optional<String> getTopicTitleById(Long topicId);
+    Optional<Topic> getTopicById(Long topicId);
 
     List<Topic> getTopics();
 
@@ -28,4 +28,6 @@ public interface CardRepository {
     void removeQuiz(Long quizId);
 
     void updateQuizIsRememberedToTrue(Long quizId);
+
+    Long getTopicIdByQuizId(Long quizId);
 }

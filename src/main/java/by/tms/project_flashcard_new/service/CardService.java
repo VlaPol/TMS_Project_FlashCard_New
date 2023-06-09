@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CardService {
 
-    String getTopicTitleById(Long topicId);
+    Topic getTopicById(Long topicId);
 
     List<Topic> getTopics();
 
@@ -27,4 +27,6 @@ public interface CardService {
     void removeQuiz(Long quizId);
 
     void updateQuizToTrue(Long quizId);
+
+    Long getTopicIdByQuizId(Long quizId);
 }
