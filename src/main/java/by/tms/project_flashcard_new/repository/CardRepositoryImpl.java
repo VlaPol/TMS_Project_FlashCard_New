@@ -300,4 +300,36 @@ public class CardRepositoryImpl implements CardRepository {
         }
     }
 
+    @Override
+    public Optional<Quiz> getCardById(Long quizId) {
+        String sql = """
+                    SELECT q.quiz_id        AS id,
+                           q.question       AS question,
+                           q.answer         AS answer,
+                           q.is_remembered  AS remembered
+                    FROM quiz q
+                    WHERE q.quiz_id = ?
+                """;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, quizId);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return Optional.of(new Quiz(rs.getLong("id"),
+                        rs.getString("question"),
+                        rs.getString("answer"),
+                        rs.getBoolean("remembered")));
+            } else {
+                return Optional.empty();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+
 }

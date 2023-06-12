@@ -45,7 +45,7 @@
             <div class="card text-dark bg-info mb-1" style="width: 15rem; height: 10rem">
                 <div class="card-body">
                     <h5 align="center">
-                        <c:out value="${quiz.question}"/>
+                        <c:out value="${quiz.answer}"/>
                     </h5>
                 </div>
             </div>
@@ -55,11 +55,12 @@
 
             <div class="btn-group-vertical">
 
-                <form action="<c:url value="/show-answer"/>" method="get" enctype="application/x-www-form-urlencoded">
+                <form action="<c:url value="/training"/>" method="get" enctype="application/x-www-form-urlencoded">
                     <button type="submit" class="btn btn-info" name="quizId" value="${quiz.quizId}">
                         Повернуть
                     </button>
                     <input type="hidden" name="offset" value="${offset}">
+                    <input type="hidden" name="topicId" value="${topic.topicId}">
                 </form>
 
                 <form action="<c:url value="/pass-quiz"/>" method="post" enctype="application/x-www-form-urlencoded">

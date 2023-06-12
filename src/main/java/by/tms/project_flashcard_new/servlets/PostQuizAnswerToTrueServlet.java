@@ -29,16 +29,16 @@ public class PostQuizAnswerToTrueServlet extends HttpServlet {
 
         long quizId = Long.parseLong(request.getParameter("quizId"));
         int offset = Integer.parseInt(request.getParameter("offset"));
+        String know = request.getParameter("know");
         long topicId = cardService.getTopicIdByQuizId(quizId);
 
-        if (offset != 0) {
+        if (know.equals("false")) {
             cardService.trainingTopic(topicId, offset);
         } else {
             cardService.updateQuizToTrue(quizId);
             cardService.trainingTopic(topicId, offset);
         }
 
-        //       response.sendRedirect("/training?topicId=" + topicId);
         response.sendRedirect("/training?topicId=" + topicId + "&offset=" + offset);
     }
 }

@@ -65,6 +65,14 @@ public class CardServiceImpl implements CardService {
             return new Quiz();
         }
     }
+    @Override
+    public Quiz trainingTopic(Long quizId) {
+        if (repo.getCardById(quizId).isPresent()) {
+            return repo.getCardById(quizId).get();
+        } else {
+            return new Quiz();
+        }
+    }
 
     @Override
     public void addNewTopic(String topic) {

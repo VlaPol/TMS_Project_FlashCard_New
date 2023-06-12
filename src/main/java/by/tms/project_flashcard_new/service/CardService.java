@@ -17,6 +17,7 @@ public interface CardService {
     List<Quiz> getAllQuiz(Long topicId);
 
     Quiz trainingTopic(Long topicId, int offset);
+    Quiz trainingTopic(Long quizId);
 
     void addNewTopic(String topic);
 

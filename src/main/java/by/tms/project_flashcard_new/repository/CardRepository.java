@@ -30,4 +30,6 @@ public interface CardRepository {
     void updateQuizIsRememberedToTrue(Long quizId);
 
     Long getTopicIdByQuizId(Long quizId);
+
+    Optional<Quiz> getCardById(Long quizId);
 }
