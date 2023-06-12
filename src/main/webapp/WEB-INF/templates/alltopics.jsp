@@ -39,6 +39,12 @@
                     Тема: <c:out value="${topic.topicTitle}"/>
                 </h5>
             </td>
+            <form action="<c:url value="/training"/>" method="get" enctype="application/x-www-form-urlencoded">
+                <td align="center">
+                    <button type="submit" class="btn btn-primary" name="topicId" value="${topic.topicId}">Тренеровка</button>
+                </td>
+                <input type="hidden" name="offset" value="0">
+            </form>
             <form action="<c:url value="/allquizzes"/>" method="get" enctype="application/x-www-form-urlencoded">
                 <td align="center">
                     <button type="submit" class="btn btn-info" name="topicId" value="${topic.topicId}">Редактировать</button>
@@ -58,7 +64,7 @@
             <td id="text-cell4">
                 <h5>Новая тема: </h5>
             </td>
-            <td align="center">
+            <td>
                 <label>
                     <input type="text" class="form-control" name="title" required>
                 </label>

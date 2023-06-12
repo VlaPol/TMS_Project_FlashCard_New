@@ -1,5 +1,6 @@
 package by.tms.project_flashcard_new.servlets;
 
+import by.tms.project_flashcard_new.models.FullTopic;
 import by.tms.project_flashcard_new.models.Quiz;
 import by.tms.project_flashcard_new.models.Topic;
 import by.tms.project_flashcard_new.service.CardService;
@@ -29,7 +30,7 @@ public class GetAllQuizServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Long topicId = Long.valueOf(request.getParameter("topicId"));
-        Topic topic = cardService.getTopicById(topicId);
+        FullTopic topic = cardService.getTopicById(topicId);
 
         List<Quiz> quizzes = cardService.getAllQuiz(topicId);
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CardRepository {
 
-    Optional<Topic> getTopicById(Long topicId);
+    Optional<FullTopic> getTopicById(Long topicId);
 
     List<Topic> getTopics();
 

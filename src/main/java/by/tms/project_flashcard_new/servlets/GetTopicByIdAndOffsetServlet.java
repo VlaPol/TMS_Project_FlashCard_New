@@ -1,6 +1,9 @@
 package by.tms.project_flashcard_new.servlets;
 
+import by.tms.project_flashcard_new.models.FullTopic;
+import by.tms.project_flashcard_new.models.Quiz;
 import by.tms.project_flashcard_new.service.CardService;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/readytopic")
+@WebServlet("/training")
 public class GetTopicByIdAndOffsetServlet extends HttpServlet {
 
     private CardService cardService;
@@ -26,10 +29,21 @@ public class GetTopicByIdAndOffsetServlet extends HttpServlet {
         Long topicId = Long.valueOf(request.getParameter("topicId"));
         int offset = Integer.parseInt(request.getParameter("offset"));
 
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(cardService.getCardByIdAndOffset(topicId, offset));
+        FullTopic topic = cardService.getTopicById(topicId);
+        Quiz quiz = cardService.trainingTopic(topicId, offset);
+        if (quiz.getQuizId() != null) {
+            request.setAttribute("topic", topic);
+            request.setAttribute("quiz", quiz);
+            if (quiz.getIsRemembered()) {
+                request.setAttribute("offset", offset);
+            } else {
+                request.setAttribute("offset", offset + 1);
+            }
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/templates/training.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() +"/allquizzes?topicId="+ topicId);
+        }
     }
 }
 

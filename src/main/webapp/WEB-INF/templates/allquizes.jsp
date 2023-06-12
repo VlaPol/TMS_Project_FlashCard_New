@@ -41,54 +41,54 @@
     </thead>
     <tbody>
     <c:forEach var="quiz" items="${quizzes}">
-    <tr>
-        <td>
-            <div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
-                <div class="card-body">
-                    <h5>
-                        <c:out value="${quiz.question}"/>
-                    </h5>
+        <tr>
+            <td>
+                <div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5>
+                            <c:out value="${quiz.question}"/>
+                        </h5>
+                    </div>
                 </div>
-            </div>
-        </td>
-        <td>
-            <div class="card text-dark bg-success mb-3" style="max-width: 18rem;">
-                <div class="card-body">
-                    <h5>
-                        <c:out value="${quiz.answer}"/>
-                    </h5>
+            </td>
+            <td>
+                <div class="card text-dark bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5>
+                            <c:out value="${quiz.answer}"/>
+                        </h5>
+                    </div>
                 </div>
-            </div>
-        </td>
-        <td align="right">
-            <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
-                <div class="card-body">
-                    <c:choose>
-                        <c:when test="${quiz.isRemembered}">
-                            <h5>
-                                <input class="form-check-input" type="checkbox" value="" aria-label="Знаю"
-                                       checked>
-                                Знаю
-                            </h5>
-                        </c:when>
+            </td>
+            <td align="right">
+                <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <c:choose>
+                            <c:when test="${quiz.isRemembered}">
+                                <h5>
+                                    <input class="form-check-input" type="checkbox" value="" aria-label="Знаю"
+                                           checked>
+                                    Знаю
+                                </h5>
+                            </c:when>
 
-                        <c:otherwise>
-                            <h5>
-                                <input class="form-check-input" type="checkbox" value="" aria-label="Знаю">
-                                Знаю
-                            </h5>
-                        </c:otherwise>
-                    </c:choose>
+                            <c:otherwise>
+                                <h5>
+                                    <input class="form-check-input" type="checkbox" value="" aria-label="Знаю">
+                                    Знаю
+                                </h5>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                 </div>
-            </div>
-        </td>
-        <td align="center">
-            <form action="<c:url value="/delete-quiz"/>" method="post" enctype="application/x-www-form-urlencoded">
-                <button type="submit" class="btn btn-danger" name="quizId" value="${quiz.quizId}">Удалить
-                </button>
-            </form>
-        </td>
-    </tr>
+            </td>
+            <td align="center">
+                <form action="<c:url value="/delete-quiz"/>" method="post" enctype="application/x-www-form-urlencoded">
+                    <button type="submit" class="btn btn-danger" name="quizId" value="${quiz.quizId}">Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
     </c:forEach>
     <form action="<c:url value="/add-quiz"/>" method="post" enctype="application/x-www-form-urlencoded">
         <tr>
@@ -113,12 +113,20 @@
             </td>
         </tr>
     </form>
+
+    <form action="<c:url value="/back"/>" method="post" enctype="application/x-www-form-urlencoded">
+        <tr>
+            <td>
+                <button type="submit" class="btn btn-outline-secondary">На главную</button>
+            </td>
+        </tr>
+    </form>
     </tbody>
 </table>
 
-    <footer fragment="footer" class="text-center fixed-bottom text-lg-start text-muted bg-dark">
-        <br>
-        <h5>(c) ${Year.now()}</h5>
-    </footer>
+<footer fragment="footer" class="text-center fixed-bottom text-lg-start text-muted bg-dark">
+    <br>
+    <h5>(c) ${Year.now()}</h5>
+</footer>
 </body>
 </html>

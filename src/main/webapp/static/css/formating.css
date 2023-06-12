@@ -23,6 +23,7 @@ h5{
     font-family: "Times New Roman", serif;
     font-size: 20px;
     font-palette: light;
+    color: rebeccapurple;
 }
 label{
     font-family: "Times New Roman", serif;
@@ -35,4 +36,7 @@ image{
 .error{
     color: red;
     font-size: 15px;
+}
+.custom-button{
+    width: 100%
 }
