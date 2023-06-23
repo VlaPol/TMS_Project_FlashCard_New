@@ -17,10 +17,10 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public String getTopicTitleById(Long topicId) throws RuntimeException {
+    public FullTopic getTopicById(Long topicId) throws RuntimeException {
 
-        if (repo.getTopicTitleById(topicId).isPresent()) {
-            return repo.getTopicTitleById(topicId).get();
+        if (repo.getTopicById(topicId).isPresent()) {
+            return repo.getTopicById(topicId).get();
         } else {
             throw new RuntimeException();
         }
@@ -58,11 +58,19 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Quiz getCardByIdAndOffset(Long topicId, int offset) {
+    public Quiz trainingTopic(Long topicId, int offset) {
         if (repo.getCardByIdAndOffset(topicId, offset).isPresent()) {
             return repo.getCardByIdAndOffset(topicId, offset).get();
         } else {
-            throw new RuntimeException();
+            return new Quiz();
+        }
+    }
+    @Override
+    public Quiz trainingTopic(Long quizId) {
+        if (repo.getCardById(quizId).isPresent()) {
+            return repo.getCardById(quizId).get();
+        } else {
+            return new Quiz();
         }
     }
 
@@ -97,5 +105,10 @@ public class CardServiceImpl implements CardService {
     @Override
     public void updateQuizToTrue(Long quizId) {
         repo.updateQuizIsRememberedToTrue(quizId);
+    }
+
+    @Override
+    public Long getTopicIdByQuizId(Long quizId) {
+        return repo.getTopicIdByQuizId(quizId);
     }
 }

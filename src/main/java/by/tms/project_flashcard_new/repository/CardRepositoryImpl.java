@@ -27,9 +27,19 @@ public class CardRepositoryImpl implements CardRepository {
      * @return Optional<String>
      */
     @Override
-    public Optional<String> getTopicTitleById(Long topicId) {
+    public Optional<FullTopic> getTopicById(Long topicId) {
 
-        String sql = " SELECT topic_title FROM topic WHERE topic_id = ?";
+        String sql = """
+                SELECT  t.topic_id                                           AS id,
+                        t.topic_title                                        AS title,
+                        count(q.topic_id) FILTER ( WHERE q.is_remembered )   AS learned_count,
+                        count(q.topic_id)                                    AS total_count
+                FROM topic t
+                LEFT JOIN quiz as q ON t.topic_id = q.topic_id
+                WHERE t.topic_id = ?
+                GROUP BY t.topic_id
+                ORDER BY t.topic_id
+                """;
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -38,7 +48,10 @@ public class CardRepositoryImpl implements CardRepository {
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                return Optional.of(rs.getString("TOPIC_TITLE"));
+                return Optional.of(new FullTopic(rs.getLong("id"),
+                        rs.getString("title"),
+                        rs.getInt("learned_count"),
+                        rs.getInt("total_count")));
             }
             return Optional.empty();
 
@@ -86,7 +99,8 @@ public class CardRepositoryImpl implements CardRepository {
                            count(q.topic_id)                                    AS total_count
                     FROM topic t
                                 LEFT JOIN quiz as q ON t.topic_id = q.topic_id
-                    GROUP BY t.topic_id;
+                    GROUP BY t.topic_id
+                    ORDER BY t.topic_id;
                 """;
 
         try (Connection connection = dataSource.getConnection();
@@ -148,7 +162,7 @@ public class CardRepositoryImpl implements CardRepository {
                            q.answer         AS answer,
                            q.is_remembered  AS remembered
                     FROM quiz q
-                    WHERE q.quiz_id = ?
+                    WHERE q.topic_id = ?
                       AND NOT q.is_remembered
                     ORDER BY q.quiz_id
                     LIMIT 1 OFFSET ?
@@ -258,6 +272,63 @@ public class CardRepositoryImpl implements CardRepository {
             statement.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public Long getTopicIdByQuizId(Long quizId) {
+        String sql = """
+                    select q.topic_id from quiz q
+                    where q.quiz_id = ?
+                """;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, quizId);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return rs.getLong("topic_id");
+            } else {
+                throw new RuntimeException();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public Optional<Quiz> getCardById(Long quizId) {
+        String sql = """
+                    SELECT q.quiz_id        AS id,
+                           q.question       AS question,
+                           q.answer         AS answer,
+                           q.is_remembered  AS remembered
+                    FROM quiz q
+                    WHERE q.quiz_id = ?
+                """;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, quizId);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return Optional.of(new Quiz(rs.getLong("id"),
+                        rs.getString("question"),
+                        rs.getString("answer"),
+                        rs.getBoolean("remembered")));
+            } else {
+                return Optional.empty();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException();
         }
     }
 

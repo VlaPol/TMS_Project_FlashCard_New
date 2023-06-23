@@ -1,0 +1,42 @@
+body{
+    background-color: antiquewhite;
+}
+#text-cell1, #text-cell2, #text-cell3, #text-cell4 {
+    border-bottom: 1px solid white;
+    color: black;
+    background-color: aquamarine;
+}
+tr{
+    color: black;
+}
+h2{
+    font-family: "Times New Roman", serif;
+    font-size: 25px;
+    background-color: antiquewhite;
+}
+h3{
+    font-family: "Times New Roman", serif;
+    font-size: 27px;
+    color: rebeccapurple;
+}
+h5{
+    font-family: "Times New Roman", serif;
+    font-size: 20px;
+    font-palette: light;
+    color: rebeccapurple;
+}
+label{
+    font-family: "Times New Roman", serif;
+    font-size: 20px;
+}
+image{
+    im: 3px;
+    height: 3px;
+}
+.error{
+    color: red;
+    font-size: 15px;
+}
+.custom-button{
+    width: 100%
+}

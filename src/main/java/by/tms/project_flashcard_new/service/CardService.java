@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CardService {
 
-    String getTopicTitleById(Long topicId);
+    FullTopic getTopicById(Long topicId);
 
     List<Topic> getTopics();
 
@@ -16,7 +16,8 @@ public interface CardService {
 
     List<Quiz> getAllQuiz(Long topicId);
 
-    Quiz getCardByIdAndOffset(Long topicId, int offset);
+    Quiz trainingTopic(Long topicId, int offset);
+    Quiz trainingTopic(Long quizId);
 
     void addNewTopic(String topic);
 
@@ -27,4 +28,6 @@ public interface CardService {
     void removeQuiz(Long quizId);
 
     void updateQuizToTrue(Long quizId);
+
+    Long getTopicIdByQuizId(Long quizId);
 }

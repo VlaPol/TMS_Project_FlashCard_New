@@ -17,6 +17,22 @@ public class FullTopic {
     public FullTopic() {
     }
 
+    public Long getTopicId() {
+        return topicId;
+    }
+
+    public String getTopicTitle() {
+        return topicTitle;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public int getLearned() {
+        return learned;
+    }
+
     @Override
     public String toString() {
         return
